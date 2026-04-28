@@ -328,6 +328,7 @@
       "Гэхдээ миний хацар дээр үнссэн шүү.",
       "За тэгээд, ажлаа сайн хийгээрэй."
     ];
+    let currentIndex = 0;
 
     const messageEl = document.getElementById("message");
     const button = document.getElementById("cheerBtn");
@@ -341,10 +342,10 @@
 
     function showNextMessage() {
       triggerPageSwap();
-      const i = Math.floor(Math.random() * messages.length);
+      currentIndex = (currentIndex + 1) % messages.length;
       messageEl.classList.add("swap");
       setTimeout(() => {
-        messageEl.textContent = messages[i];
+        messageEl.textContent = messages[currentIndex];
         messageEl.classList.remove("swap");
         messageEl.classList.add("pop");
         setTimeout(() => messageEl.classList.remove("pop"), 220);
