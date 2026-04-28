@@ -1,0 +1,359 @@
+﻿<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сайхан Өдөр | Нандиа</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap');
+
+    :root {
+      --rose-50: #fff7fb;
+      --rose-100: #ffeef6;
+      --rose-200: #ffdce9;
+      --rose-400: #f47fb0;
+      --rose-500: #ec5a98;
+      --wine-700: #7f2c58;
+      --mint-700: #1f5a4b;
+      --ink-900: #2e2132;
+      --muted-600: #6d5f72;
+      --card: rgba(255, 255, 255, 0.72);
+      --card-border: rgba(255, 255, 255, 0.85);
+      --shadow-soft: 0 22px 60px rgba(117, 50, 86, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--ink-900);
+      background:
+        radial-gradient(circle at 9% 17%, rgba(255, 196, 221, 0.9) 0 20%, transparent 22%),
+        radial-gradient(circle at 88% 82%, rgba(255, 164, 202, 0.56) 0 19%, transparent 23%),
+        linear-gradient(130deg, #fff7fb 0%, #ffeef6 46%, #fff8ef 100%);
+      padding: 18px;
+      overflow: hidden;
+      transition: filter 320ms ease, transform 320ms ease;
+    }
+
+    body.page-swap { filter: saturate(1.08) brightness(1.02); }
+
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.7;
+      background-image:
+        radial-gradient(circle at 22% 26%, rgba(255, 255, 255, 0.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 63% 20%, rgba(255, 255, 255, 0.7) 0 1.8px, transparent 3px),
+        radial-gradient(circle at 80% 65%, rgba(255, 255, 255, 0.85) 0 2px, transparent 3px),
+        radial-gradient(circle at 38% 76%, rgba(255, 255, 255, 0.7) 0 1.8px, transparent 3px);
+      animation: floaty 12s ease-in-out infinite alternate;
+      transition: opacity 320ms ease, transform 320ms ease;
+    }
+
+    body.page-swap .sparkles {
+      opacity: 0.92;
+      transform: scale(1.02);
+    }
+
+    .card {
+      width: min(760px, 100%);
+      position: relative;
+      z-index: 1;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 48px);
+      box-shadow: var(--shadow-soft);
+      animation: reveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: transform 320ms ease, box-shadow 320ms ease;
+    }
+
+    body.page-swap .card {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 30px 70px rgba(117, 50, 86, 0.22);
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      color: var(--wine-700);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .mascot {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #ffd6ea, #fff1f8);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 22px rgba(236, 90, 152, 0.24);
+      animation: bob 2.2s ease-in-out infinite;
+    }
+
+    .mascot-emoji {
+      font-size: 2rem;
+      transform-origin: 70% 75%;
+      animation: wave 1.5s ease-in-out infinite;
+      user-select: none;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.3rem, 6vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: 0.01em;
+    }
+
+    .name {
+      background: linear-gradient(95deg, var(--rose-500), #b24c86 50%, #6d5bd0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sub {
+      margin: 0;
+      max-width: 42ch;
+      color: var(--muted-600);
+      line-height: 1.62;
+      font-size: clamp(1rem, 2.4vw, 1.2rem);
+    }
+
+    .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 16px 30px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(105deg, #d91d58, #f15493);
+      box-shadow: 0 14px 24px rgba(217, 29, 88, 0.34);
+      cursor: pointer;
+      transition: transform 140ms ease, filter 140ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.01);
+      filter: brightness(1.03);
+    }
+
+    button:active { transform: translateY(1px); }
+
+    .tag {
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      color: #7a4f67;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .corner-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 2;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(110deg, #8e2a62, #d03f8a);
+      box-shadow: 0 12px 24px rgba(142, 42, 98, 0.34);
+      cursor: pointer;
+      transition: transform 140ms ease, filter 140ms ease;
+    }
+
+    .corner-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    #message {
+      margin-top: 26px;
+      padding: 22px 22px;
+      border-radius: 20px;
+      min-height: 104px;
+      display: grid;
+      align-items: center;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.62));
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      font-size: clamp(1.34rem, 3vw, 1.95rem);
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--mint-700);
+      transition: transform 190ms ease, opacity 190ms ease;
+      word-break: keep-all;
+    }
+
+    #message.pop {
+      transform: scale(1.02);
+      opacity: 0.96;
+    }
+
+    #message.swap {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .hint {
+      margin: 14px 0 0;
+      color: #8d7284;
+      font-size: 0.92rem;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(12px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes floaty {
+      from { transform: translateY(0); }
+      to { transform: translateY(8px); }
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(8deg); }
+      50% { transform: rotate(-6deg); }
+      75% { transform: rotate(8deg); }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        overflow: auto;
+        padding: 12px;
+      }
+
+      .card { border-radius: 26px; }
+      .card { padding: 20px 16px 20px; }
+
+      h1 { font-size: clamp(2rem, 9vw, 2.7rem); }
+
+      .sub {
+        font-size: 1.03rem;
+        line-height: 1.55;
+      }
+
+      button, .tag { width: 100%; text-align: center; }
+      .actions { gap: 10px; }
+      .hero-top { align-items: flex-start; }
+
+      #message {
+        font-size: clamp(1.05rem, 6.2vw, 1.45rem);
+        padding: 18px 14px;
+        min-height: 90px;
+      }
+
+      .corner-btn {
+        position: static;
+        margin-top: 12px;
+        width: 100%;
+        font-size: 0.95rem;
+        padding: 12px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sparkles" aria-hidden="true"></div>
+
+  <main class="card">
+    <div class="hero-top">
+      <span class="pill">Soft Mood</span>
+      <div class="mascot" aria-hidden="true">
+        <span class="mascot-emoji">🐰🩷</span>
+      </div>
+    </div>
+
+    <h1>Өдрийн мэнд, <span class="name">Нандиа</span></h1>
+    <p class="sub">Өнөөдөртөө зөөлөн, өөртөө хайртай байгаарай. Нэг даралт хийгээд өөрийгөө улам гоё энергиэр цэнэглээрэй.</p>
+
+    <div class="actions">
+      <button id="cheerBtn" type="button">Сайхан үгс авах</button>
+      <span class="tag">Pretty day mode</span>
+    </div>
+
+    <p id="message">Нандиа, өчигдөр чи намайг хазчихсан, их өвдсөн.</p>
+    <p class="hint">Товчоо дахин дарахад шинэ мессеж гарна.</p>
+  </main>
+
+  <button id="cornerCheerBtn" class="corner-btn" type="button">Сайхан үгс</button>
+
+  <script>
+    const name = "Нандиа";
+    const messages = [
+      `${name}, өчигдөр чи намайг хазчихсан, их өвдсөн.`,
+      `${name}, гэхдээ хацар дээр үнссэн.`,
+      `${name}, хөөрхөн санагдсан шүү.`,
+      `${name}, өдрийг сайхан өнгөрүүлээрэй.`
+    ];
+
+    const messageEl = document.getElementById("message");
+    const button = document.getElementById("cheerBtn");
+    const cornerButton = document.getElementById("cornerCheerBtn");
+    const body = document.body;
+
+    function triggerPageSwap() {
+      body.classList.add("page-swap");
+      setTimeout(() => body.classList.remove("page-swap"), 320);
+    }
+
+    function showNextMessage() {
+      triggerPageSwap();
+      const i = Math.floor(Math.random() * messages.length);
+      messageEl.classList.add("swap");
+      setTimeout(() => {
+        messageEl.textContent = messages[i];
+        messageEl.classList.remove("swap");
+        messageEl.classList.add("pop");
+        setTimeout(() => messageEl.classList.remove("pop"), 220);
+      }, 140);
+    }
+
+    button.addEventListener("click", showNextMessage);
+    cornerButton.addEventListener("click", showNextMessage);
+  </script>
+</body>
+</html>
